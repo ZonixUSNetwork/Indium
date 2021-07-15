@@ -1,0 +1,6 @@
+name: Indium
+version: 1.0-SNAPSHOT
+main: me.kansio.indium.IndiumPlugin
+depend:
+  - Kotlin
+  - Proton
