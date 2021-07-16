@@ -6,6 +6,7 @@ enum class Payload {
     MESSAGE,
     REQUEST,
     REPORT,
+    FILTER,
 
 
 

@@ -6,7 +6,10 @@ import cc.fyre.venom.profile.provider.UUIDParameterProvider;
 import me.kansio.indium.commands.TeleportCommand;
 import me.kansio.indium.commands.TeleportHereCommand;
 import me.kansio.indium.commands.TeleportPosCommand;
+import me.kansio.indium.listeners.FilterListener;
+import me.kansio.indium.listeners.MobDisableListener;
 import me.kansio.indium.listeners.StaffChatListener;
+import me.kansio.indium.manager.FilterManager;
 import me.kansio.indium.manager.StaffChatManager;
 import me.kansio.indium.redis.Payload;
 import me.kansio.indium.redis.publisher.Publisher;
@@ -25,6 +28,7 @@ public class IndiumPlugin extends JavaPlugin {
     private Publisher publisher;
     private CommandFramework framework;
     private StaffChatManager staffChatManager = new StaffChatManager();
+    private FilterManager filterManager = new FilterManager();
 
     @Override
     public void onEnable() {
@@ -34,6 +38,7 @@ public class IndiumPlugin extends JavaPlugin {
         registerListener();
         registerCommands();
         registerCooldowns();
+        this.filterManager.setFiltered();
 
         publisher.write(Payload.MESSAGE, new JsonBuilder()
                 .add("message", "§7[§cServer Notifier§7] §c" + getServerName() + " §fis now §aonline§f.")
@@ -63,13 +68,18 @@ public class IndiumPlugin extends JavaPlugin {
         Proton.getInstance().getCommandHandler().registerAll(this);
 
         Bukkit.getPluginManager().registerEvents(new StaffChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new FilterListener(), this);
         if (getServerName().contains("Hub")) {
-
+            Bukkit.getPluginManager().registerEvents(new MobDisableListener(), this);
         }
     }
 
     public void registerCooldowns() {
         Cooldowns.createCooldown("request_cooldown");
+    }
+
+    public FilterManager getFilterManager() {
+        return filterManager;
     }
 
     public CommandFramework getFramework() {

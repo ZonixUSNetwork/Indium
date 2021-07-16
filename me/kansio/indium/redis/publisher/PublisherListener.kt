@@ -42,7 +42,30 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 ServerUtil.sendToStaff(formattedMessage)
             }
+            Payload.REPORT -> {
+                val server = json["server"].asString
+                val reported = json["reported"].asString
+                val sender = json["reporter"].asString
+                val senderUUID = UUID.fromString(json["uuid"].asString)
+                val reportedUUID = UUID.fromString(json["reportedUuid"].asString)
+                val reporterName = VenomAPI.instance.grantHandler.findBestRank(senderUUID).color.replace("&", "§") + sender
+                val reportedName = VenomAPI.instance.grantHandler.findBestRank(reportedUUID).color.replace("&", "§") + reported
 
+                val formattedMessage = "§9[Report] §b[$server] §f$reporterName §7has reported §f$reportedName§7."
+
+                ServerUtil.sendToStaff(formattedMessage)
+            }
+            Payload.FILTER -> {
+                val server = json["server"].asString
+                val sender = json["sender"].asString
+                val message = json["message"].asString
+                val senderUUID = UUID.fromString(json["uuid"].asString)
+                val name = VenomAPI.instance.grantHandler.findBestRank(senderUUID).color.replace("&", "§") + sender
+
+                val formattedMessage = "§c[Filtered] §7[$server] §f$name §7-> §f$message§7."
+
+                ServerUtil.sendToStaff(formattedMessage)
+            }
         }
     }
 }
