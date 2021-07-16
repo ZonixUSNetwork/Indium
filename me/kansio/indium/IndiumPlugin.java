@@ -17,6 +17,7 @@ import me.kansio.indium.utils.Cooldowns;
 import me.kansio.indium.utils.JsonBuilder;
 import me.kansio.indium.utils.commandframework.CommandFramework;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +30,7 @@ public class IndiumPlugin extends JavaPlugin {
     private CommandFramework framework;
     private final StaffChatManager staffChatManager = new StaffChatManager();
     private final FilterManager filterManager = new FilterManager();
+    FileConfiguration config = this.getConfig();
 
     @Override
     public void onEnable() {
@@ -38,7 +40,7 @@ public class IndiumPlugin extends JavaPlugin {
         registerListener();
         registerCommands();
         registerCooldowns();
-
+        this.saveDefaultConfig();
         publisher.write(Payload.MESSAGE, new JsonBuilder()
                 .add("message", "§7[§cServer Notifier§7] §c" + getServerName() + " §fis now §aonline§f.")
                 .build());
@@ -75,6 +77,7 @@ public class IndiumPlugin extends JavaPlugin {
 
     public void registerCooldowns() {
         Cooldowns.createCooldown("request_cooldown");
+        Cooldowns.createCooldown("broadcast_cooldown");
     }
 
     public FilterManager getFilterManager() {

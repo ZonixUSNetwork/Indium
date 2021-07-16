@@ -20,7 +20,9 @@ class FilterManager {
     fun isFiltered(message: String): Boolean {
         var wasFiltered = false
         for (string in filtered) {
-            wasFiltered = true
+            if (message.lowercase().contains(string)) {
+                wasFiltered = true
+            }
         }
         return wasFiltered
     }

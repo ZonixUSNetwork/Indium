@@ -66,6 +66,10 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 ServerUtil.sendToStaff(formattedMessage)
             }
+            Payload.BROADCAST -> {
+                val message = json["message"].asString
+                Bukkit.broadcastMessage(message)
+            }
         }
     }
 }
