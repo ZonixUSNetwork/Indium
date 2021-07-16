@@ -27,8 +27,8 @@ public class IndiumPlugin extends JavaPlugin {
     private static IndiumPlugin instance;
     private Publisher publisher;
     private CommandFramework framework;
-    private StaffChatManager staffChatManager = new StaffChatManager();
-    private FilterManager filterManager = new FilterManager();
+    private final StaffChatManager staffChatManager = new StaffChatManager();
+    private final FilterManager filterManager = new FilterManager();
 
     @Override
     public void onEnable() {
@@ -38,7 +38,6 @@ public class IndiumPlugin extends JavaPlugin {
         registerListener();
         registerCommands();
         registerCooldowns();
-        this.filterManager.setFiltered();
 
         publisher.write(Payload.MESSAGE, new JsonBuilder()
                 .add("message", "§7[§cServer Notifier§7] §c" + getServerName() + " §fis now §aonline§f.")
