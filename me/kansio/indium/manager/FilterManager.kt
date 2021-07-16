@@ -11,8 +11,10 @@ class FilterManager {
         "fag",
         "kys",
         "kill urself",
-        "kill yourself"
-    
+        "kill yourself",
+        "killurself",
+        "go die"
+
     )
 
     fun isFiltered(message: String): Boolean {
