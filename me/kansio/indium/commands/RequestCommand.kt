@@ -23,7 +23,7 @@ object RequestCommand {
             return;
         }
         Cooldowns.addCooldown("request_cooldown", sender, 60)
-        sender.sendMessage("§aYour request has been submitted. All online staff members have been notified.")
+        sender.sendMessage("§aYour report has been submitted. All online staff members have been notified.")
         IndiumPlugin.getInstance().publisher.write(Payload.REQUEST, JsonBuilder()
             .add("server", IndiumPlugin.getInstance().serverName)
             .add("message", message)
