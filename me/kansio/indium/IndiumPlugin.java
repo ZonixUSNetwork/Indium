@@ -2,14 +2,17 @@ package me.kansio.indium;
 
 import cc.fyre.proton.Proton;
 import cc.fyre.proton.command.param.defaults.PlayerParameterType;
-import cc.fyre.venom.profile.provider.UUIDParameterProvider;
 import me.kansio.indium.commands.TeleportCommand;
 import me.kansio.indium.commands.TeleportHereCommand;
 import me.kansio.indium.commands.TeleportPosCommand;
+import me.kansio.indium.guis.reportgui.ReportsGui;
+import me.kansio.indium.guis.reportoptions.ReportOptions;
 import me.kansio.indium.listeners.FilterListener;
 import me.kansio.indium.listeners.MobDisableListener;
 import me.kansio.indium.listeners.StaffChatListener;
+import me.kansio.indium.manager.DisguiseManager;
 import me.kansio.indium.manager.FilterManager;
+import me.kansio.indium.manager.ReportManager;
 import me.kansio.indium.manager.StaffChatManager;
 import me.kansio.indium.redis.Payload;
 import me.kansio.indium.redis.publisher.Publisher;
@@ -21,8 +24,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.UUID;
-
 public class IndiumPlugin extends JavaPlugin {
 
     private static IndiumPlugin instance;
@@ -30,6 +31,11 @@ public class IndiumPlugin extends JavaPlugin {
     private CommandFramework framework;
     private final StaffChatManager staffChatManager = new StaffChatManager();
     private final FilterManager filterManager = new FilterManager();
+    private final DisguiseManager disguiseManager = new DisguiseManager();
+    private final ReportManager reportManager = new ReportManager();
+    private final ReportsGui reportsGui = new ReportsGui();
+    private ReportOptions reportOptions = new ReportOptions();
+
     FileConfiguration config = this.getConfig();
 
     @Override
@@ -70,6 +76,8 @@ public class IndiumPlugin extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new StaffChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new FilterListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ReportOptions(), this);
+        Bukkit.getPluginManager().registerEvents(new ReportsGui(), this);
         if (getServerName().contains("Hub")) {
             Bukkit.getPluginManager().registerEvents(new MobDisableListener(), this);
         }
@@ -80,8 +88,24 @@ public class IndiumPlugin extends JavaPlugin {
         Cooldowns.createCooldown("broadcast_cooldown");
     }
 
+    public ReportsGui getReportsGui() {
+        return reportsGui;
+    }
+
+    public ReportOptions getReportOptions() {
+        return reportOptions;
+    }
+
     public FilterManager getFilterManager() {
         return filterManager;
+    }
+
+    public DisguiseManager getDisguiseManager() {
+        return disguiseManager;
+    }
+
+    public ReportManager getReportManager() {
+        return reportManager;
     }
 
     public CommandFramework getFramework() {

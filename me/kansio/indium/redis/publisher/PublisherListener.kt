@@ -6,7 +6,9 @@ import me.kansio.indium.utils.ServerUtil.sendToStaff
 import org.redisson.api.listener.MessageListener
 import me.kansio.indium.redis.Payload
 import me.kansio.indium.IndiumPlugin
+import me.kansio.indium.`object`.Report
 import me.kansio.indium.utils.Pair
+import me.kansio.indium.utils.ReportUtils
 import java.util.UUID
 import me.kansio.indium.utils.ServerUtil
 import org.bukkit.Bukkit
@@ -42,16 +44,15 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 ServerUtil.sendToStaff(formattedMessage)
             }
-            Payload.REPORT -> {
+            Payload.SEND_REPORT -> {
                 val server = json["server"].asString
                 val reported = json["reported"].asString
                 val sender = json["reporter"].asString
-                val senderUUID = UUID.fromString(json["uuid"].asString)
-                val reportedUUID = UUID.fromString(json["reportedUuid"].asString)
-                val reporterName = VenomAPI.instance.grantHandler.findBestRank(senderUUID).color.replace("&", "§") + sender
-                val reportedName = VenomAPI.instance.grantHandler.findBestRank(reportedUUID).color.replace("&", "§") + reported
+                val reason = json["message"].asString
+                val id = json["id"].asString
 
-                val formattedMessage = "§9[Report] §b[$server] §f$reporterName §7has reported §f$reportedName§7."
+                val formattedMessage = "§9[Report] §b[$server] §f$sender §7has reported §f$reported§7 for §f$reason."
+                IndiumPlugin.getInstance().reportManager.addReport(Report(reported, sender, reason, id))
 
                 ServerUtil.sendToStaff(formattedMessage)
             }
@@ -69,6 +70,10 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
             Payload.BROADCAST -> {
                 val message = json["message"].asString
                 Bukkit.broadcastMessage(message)
+            }
+            Payload.HANDLE_REPORT -> {
+                val id = json["id"].asString
+                IndiumPlugin.getInstance().reportManager.reports.remove(ReportUtils.findReport(id))
             }
         }
     }

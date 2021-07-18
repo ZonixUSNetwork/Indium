@@ -6,6 +6,7 @@ import me.kansio.indium.IndiumPlugin
 import me.kansio.indium.redis.Payload
 import me.kansio.indium.utils.Cooldowns
 import me.kansio.indium.utils.JsonBuilder
+import org.apache.commons.lang.RandomStringUtils
 import org.bukkit.entity.Player
 
 object ReportCommand {
@@ -15,7 +16,7 @@ object ReportCommand {
         names = ["report"],
         permission = "",
     )
-    fun execute(sender: Player, @Parameter(name = "message", wildcard = true) message: String) {
+    fun execute(sender: Player, @Parameter(name = "player") player: Player, @Parameter(name = "message", wildcard = true) message: String) {
         if (Cooldowns.isOnCooldown("request_cooldown", sender)) {
             sender.sendMessage("§cYou cannot do this yet, you're on cooldown.")
             return;
@@ -23,13 +24,23 @@ object ReportCommand {
         Cooldowns.addCooldown("request_cooldown", sender, 60)
         sender.sendMessage("§aYour request has been submitted. All online staff members have been notified.")
         IndiumPlugin.getInstance().publisher.write(
-            Payload.REQUEST, JsonBuilder()
+            Payload.SEND_REPORT, JsonBuilder()
             .add("server", IndiumPlugin.getInstance().serverName)
             .add("message", message)
-            .add("sender", sender.name)
-            .add("uuid", sender.uniqueId)
+            .add("reporter", sender.name)
+            .add("reported", player.name)
+            .add("id", RandomStringUtils.randomAlphanumeric(8))
             .build())
 
+    }
+
+    @JvmStatic
+    @Command(
+        names = ["reports"],
+        permission = "rank.staff"
+    )
+    fun exec(sender: Player) {
+        IndiumPlugin.getInstance().reportsGui.open(sender)
     }
 
 }

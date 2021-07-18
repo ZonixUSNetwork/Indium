@@ -5,10 +5,11 @@ enum class Payload {
     STAFF_CHAT,
     MESSAGE,
     REQUEST,
-    REPORT,
     FILTER,
     BROADCAST,
 
-
+    SEND_REPORT,
+    HANDLE_REPORT,
+    REMOVE_REPORT,
 
 }
