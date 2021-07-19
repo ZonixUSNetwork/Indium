@@ -8,7 +8,10 @@ class FilterManager {
 
     private val filtered: Array<String> = arrayOf(
         "nigger",
+        "nigga",
+        "kneegar",
         "fag",
+        "bitch",
         "kys",
         "kill urself",
         "kill yourself",

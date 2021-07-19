@@ -8,12 +8,10 @@ import me.kansio.indium.commands.TeleportPosCommand;
 import me.kansio.indium.guis.reportgui.ReportsGui;
 import me.kansio.indium.guis.reportoptions.ReportOptions;
 import me.kansio.indium.listeners.FilterListener;
+import me.kansio.indium.listeners.FreezeListener;
 import me.kansio.indium.listeners.MobDisableListener;
 import me.kansio.indium.listeners.StaffChatListener;
-import me.kansio.indium.manager.DisguiseManager;
-import me.kansio.indium.manager.FilterManager;
-import me.kansio.indium.manager.ReportManager;
-import me.kansio.indium.manager.StaffChatManager;
+import me.kansio.indium.manager.*;
 import me.kansio.indium.redis.Payload;
 import me.kansio.indium.redis.publisher.Publisher;
 import me.kansio.indium.utils.Cooldowns;
@@ -35,6 +33,7 @@ public class IndiumPlugin extends JavaPlugin {
     private final ReportManager reportManager = new ReportManager();
     private final ReportsGui reportsGui = new ReportsGui();
     private ReportOptions reportOptions = new ReportOptions();
+    private FreezeManager freezeManager = new FreezeManager();
 
     FileConfiguration config = this.getConfig();
 
@@ -75,6 +74,7 @@ public class IndiumPlugin extends JavaPlugin {
         Proton.getInstance().getCommandHandler().registerAll(this);
 
         Bukkit.getPluginManager().registerEvents(new StaffChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new FreezeListener(), this);
         Bukkit.getPluginManager().registerEvents(new FilterListener(), this);
         Bukkit.getPluginManager().registerEvents(new ReportOptions(), this);
         Bukkit.getPluginManager().registerEvents(new ReportsGui(), this);
@@ -86,6 +86,10 @@ public class IndiumPlugin extends JavaPlugin {
     public void registerCooldowns() {
         Cooldowns.createCooldown("request_cooldown");
         Cooldowns.createCooldown("broadcast_cooldown");
+    }
+
+    public FreezeManager getFreezeManager() {
+        return freezeManager;
     }
 
     public ReportsGui getReportsGui() {

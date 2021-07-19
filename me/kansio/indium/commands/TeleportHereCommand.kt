@@ -16,7 +16,7 @@ class TeleportHereCommand : PluginCommand() {
 
     @Command(
         name = "tphere",
-        permission = "indium.command.tphere"
+        permission = "rank.mod"
     )
     override fun onCommand(command: CommandArgs?) {
         var sender = command!!.player;

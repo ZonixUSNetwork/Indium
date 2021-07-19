@@ -13,7 +13,7 @@ object GameBroadcastCommand {
 
     @JvmStatic
     @Command(
-        names = ["broadcast", "bc"],
+        names = ["bc"],
         permission = "rank.donator",
     )
     fun execute(sender: Player) {
