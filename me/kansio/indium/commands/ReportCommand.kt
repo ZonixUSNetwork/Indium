@@ -17,12 +17,12 @@ object ReportCommand {
         permission = "",
     )
     fun execute(sender: Player, @Parameter(name = "player") player: Player, @Parameter(name = "message", wildcard = true) message: String) {
-        if (Cooldowns.isOnCooldown("request_cooldown", sender)) {
+        if (Cooldowns.isOnCooldown("report_cooldown", sender)) {
             sender.sendMessage("§cYou cannot do this yet, you're on cooldown.")
             return;
         }
-        Cooldowns.addCooldown("request_cooldown", sender, 60)
-        sender.sendMessage("§aYour request has been submitted. All online staff members have been notified.")
+        Cooldowns.addCooldown("report_cooldown", sender, 60)
+        sender.sendMessage("§aYour report has been submitted. All online staff members have been notified.")
         IndiumPlugin.getInstance().publisher.write(
             Payload.SEND_REPORT, JsonBuilder()
             .add("server", IndiumPlugin.getInstance().serverName)

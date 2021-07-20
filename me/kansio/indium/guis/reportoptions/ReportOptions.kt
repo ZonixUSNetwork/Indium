@@ -50,15 +50,18 @@ class ReportOptions : Listener {
         var currentItem = event.currentItem
 
         if (currentItem.type == Material.EMERALD_BLOCK) {
-            val message = "§9[Reports] §f" + VenomAPI.instance.grantHandler.findBestRank(player.uniqueId).color.replace("&", "§") + player.name + " §7has §aaccepted §7the report of " + ReportUtils.findReport(id).reported + "."
-            IndiumPlugin.getInstance().publisher.write(Payload.HANDLE_REPORT, JsonBuilder().add("id", id).build())
-            IndiumPlugin.getInstance().publisher.write(Payload.MESSAGE, JsonBuilder().add("message", message).build())
+            val message = "§9[Report] §f" + VenomAPI.instance.grantHandler.findBestRank(player.uniqueId).color.replace("&", "§") + player.name + " §7has §aaccepted §7the report of " + ReportUtils.findReport(id).reported + "."
+            player.closeInventory()
+            Bukkit.getScheduler().runTaskLater(IndiumPlugin.getInstance(), { //you can't open inventories while in an inventory...
+                IndiumPlugin.getInstance().punishmentGui.open(player, id)
+            }, 3L)
+            return
         }
 
         if (currentItem.type == Material.REDSTONE_BLOCK) {
-            val message = "§9[Reports] §f" + VenomAPI.instance.grantHandler.findBestRank(player.uniqueId).color.replace("&", "§") + player.name + " §7has §cdenied §7the report of " + ReportUtils.findReport(id).reported + "."
-            IndiumPlugin.getInstance().publisher.write(Payload.HANDLE_REPORT, JsonBuilder().add("id", id).build())
+            val message = "§9[Report] §f" + VenomAPI.instance.grantHandler.findBestRank(player.uniqueId).color.replace("&", "§") + player.name + " §7has §cdenied §7the report of " + ReportUtils.findReport(id).reported + "."
             IndiumPlugin.getInstance().publisher.write(Payload.MESSAGE, JsonBuilder().add("message", message).build())
+            IndiumPlugin.getInstance().publisher.write(Payload.HANDLE_REPORT, JsonBuilder().add("id", id).build())
         }
 
         if (currentItem.type == Material.COMPASS) {

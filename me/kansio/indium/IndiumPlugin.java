@@ -5,6 +5,7 @@ import cc.fyre.proton.command.param.defaults.PlayerParameterType;
 import me.kansio.indium.commands.TeleportCommand;
 import me.kansio.indium.commands.TeleportHereCommand;
 import me.kansio.indium.commands.TeleportPosCommand;
+import me.kansio.indium.guis.punishments.PunishmentGui;
 import me.kansio.indium.guis.reportgui.ReportsGui;
 import me.kansio.indium.guis.reportoptions.ReportOptions;
 import me.kansio.indium.listeners.FilterListener;
@@ -34,6 +35,7 @@ public class IndiumPlugin extends JavaPlugin {
     private final ReportsGui reportsGui = new ReportsGui();
     private ReportOptions reportOptions = new ReportOptions();
     private FreezeManager freezeManager = new FreezeManager();
+    private PunishmentGui punishmentGui = new PunishmentGui();
 
     FileConfiguration config = this.getConfig();
 
@@ -74,6 +76,7 @@ public class IndiumPlugin extends JavaPlugin {
         Proton.getInstance().getCommandHandler().registerAll(this);
 
         Bukkit.getPluginManager().registerEvents(new StaffChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PunishmentGui(), this);
         Bukkit.getPluginManager().registerEvents(new FreezeListener(), this);
         Bukkit.getPluginManager().registerEvents(new FilterListener(), this);
         Bukkit.getPluginManager().registerEvents(new ReportOptions(), this);
@@ -85,11 +88,16 @@ public class IndiumPlugin extends JavaPlugin {
 
     public void registerCooldowns() {
         Cooldowns.createCooldown("request_cooldown");
+        Cooldowns.createCooldown("report_cooldown");
         Cooldowns.createCooldown("broadcast_cooldown");
     }
 
     public FreezeManager getFreezeManager() {
         return freezeManager;
+    }
+
+    public PunishmentGui getPunishmentGui() {
+        return punishmentGui;
     }
 
     public ReportsGui getReportsGui() {
