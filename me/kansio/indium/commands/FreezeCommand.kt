@@ -23,14 +23,14 @@ object FreezeCommand {
             player.teleport(player.world.getHighestBlockAt(player.location).location)
             IndiumPlugin.getInstance().freezeManager.addFrozen(player)
             IndiumPlugin.getInstance().publisher.write(Payload.MESSAGE, JsonBuilder().add("message", "§9[Staff] §b[${IndiumPlugin.getInstance().serverName}] §f" + VenomAPI.instance.grantHandler.findBestRank(sender.uniqueId).color.replace("&", "§") + sender.name + " §7froze §f" + player.displayName + "§7.").build())
-            sender.sendMessage("§aYou've frozen ${player.name}")
+            sender.sendMessage("§f${player.name} §6has been frozen.")
             player.sendMessage("§4§m----------------------------------------------")
             player.sendMessage("§fYou have been §4§lFROZEN§e!")
             player.sendMessage("  §fDo not §c§lLOGOUT §for you will be banned.")
             player.sendMessage("  §fJoin teamspeak: §fts.zonix.us§f, you have 3 minutes.")
             player.sendMessage("§4§m----------------------------------------------")
         } else {
-            player.sendMessage("§aYou are now unfrozen.")
+            sender.sendMessage("§f${player.name} §6has been unfrozen.")
             IndiumPlugin.getInstance().freezeManager.removeFrozen(player)
             IndiumPlugin.getInstance().publisher.write(Payload.MESSAGE, JsonBuilder().add("message", "§9[Staff] §b[${IndiumPlugin.getInstance().serverName}] §f" + VenomAPI.instance.grantHandler.findBestRank(sender.uniqueId).color.replace("&", "§") + sender.name + " §7unfroze §f" + player.displayName + "§7.").build())
         }
