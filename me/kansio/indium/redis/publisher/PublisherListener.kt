@@ -27,11 +27,19 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
                 staffMessage = staffMessage.replace("$", "\\$")
                 val name = json["name"].asString
                 val message = "§9[SC] §b[$server§b] §f$name§7: §f$staffMessage"
-                ServerUtil.sendToStaff(message)
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("rank.staff")) {
+                        player.sendMessage(message)
+                    }
+                }
             }
             Payload.MESSAGE -> {
                 val message = json["message"].asString
-                ServerUtil.sendToStaff(message)
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("rank.staff")) {
+                        player.sendMessage(message)
+                    }
+                }
             }
             Payload.REQUEST -> {
                 val server = json["server"].asString
@@ -42,7 +50,11 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 val formattedMessage = "§9[Request] §b[$server] §f$sender §7has requested assistance: §f$message"
 
-                ServerUtil.sendToStaff(formattedMessage)
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("rank.staff")) {
+                        player.sendMessage(formattedMessage)
+                    }
+                }
             }
             Payload.SEND_REPORT -> {
                 val server = json["server"].asString
@@ -53,8 +65,12 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 val formattedMessage = "§9[Report] §b[$server] §f$sender §7has reported §f$reported§7 for §f$reason."
                 IndiumPlugin.getInstance().reportManager.addReport(Report(reported, sender, reason, id))
-
-                ServerUtil.sendToStaff(formattedMessage)
+                //Bukkit.broadcast("lol", "rank.staff")
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("rank.staff")) {
+                        player.sendMessage(formattedMessage)
+                    }
+                }
             }
             Payload.FILTER -> {
                 val server = json["server"].asString
@@ -65,7 +81,11 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 val formattedMessage = "§c[Filtered] §7[$server] §f$name §7-> §f$message§7."
 
-                ServerUtil.sendToStaff(formattedMessage)
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (player.hasPermission("rank.staff")) {
+                        player.sendMessage(formattedMessage)
+                    }
+                }
             }
             Payload.BROADCAST -> {
                 val message = json["message"].asString
