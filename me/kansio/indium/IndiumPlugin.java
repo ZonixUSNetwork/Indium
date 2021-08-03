@@ -137,7 +137,7 @@ public class IndiumPlugin extends JavaPlugin {
     }
 
     private void loadRedis() {
-        publisher = new Publisher("127.0.0.1", 6379, "5N7hqbStz4tfHfTGh5yWkqd3rmySk7wgd2ES", false);
+        publisher = new Publisher("127.0.0.1", 6379, "password", false);
     }
 
     public String getServerName() {
