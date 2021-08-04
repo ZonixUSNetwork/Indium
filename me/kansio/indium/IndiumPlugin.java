@@ -81,7 +81,7 @@ public class IndiumPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new FilterListener(), this);
         Bukkit.getPluginManager().registerEvents(new ReportOptions(), this);
         Bukkit.getPluginManager().registerEvents(new ReportsGui(), this);
-        if (getServerName().toLowerCase().contains("Hub")) {
+        if (getServerName().toLowerCase().contains("hub")) {
             Bukkit.getPluginManager().registerEvents(new MobDisableListener(), this);
         }
     }
