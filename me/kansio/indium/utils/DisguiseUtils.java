@@ -1,7 +1,7 @@
 package me.kansio.indium.utils;
 
 /* Created by Preceding on 7/14/2021 | 2:24 PM */
-/* This file is apart of Matrix Studios, LTD. - You are prohibited from redistributing this file. */
+/* This file is a part of Matrix Studios, LTD. - You are prohibited from redistributing this file. */
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

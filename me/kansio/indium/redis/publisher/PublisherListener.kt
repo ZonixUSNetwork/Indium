@@ -45,8 +45,6 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
                 val server = json["server"].asString
                 val message = json["message"].asString
                 val sender = json["sender"].asString
-                val senderUUID = UUID.fromString(json["uuid"].asString)
-                val name = VenomAPI.instance.grantHandler.findBestRank(senderUUID).color.replace("&", "§") + sender
 
                 val formattedMessage = "§9[Request] §b[$server] §f$sender §7has requested assistance: §f$message"
 
@@ -65,7 +63,6 @@ class PublisherListener : MessageListener<Pair<Payload?, String?>> {
 
                 val formattedMessage = "§9[Report] §b[$server] §f$sender §7has reported §f$reported§7 for §f$reason."
                 IndiumPlugin.getInstance().reportManager.addReport(Report(reported, sender, reason, id))
-                //Bukkit.broadcast("lol", "rank.staff")
                 for (player in Bukkit.getOnlinePlayers()) {
                     if (player.hasPermission("rank.staff")) {
                         player.sendMessage(formattedMessage)
